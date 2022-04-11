@@ -1,0 +1,30 @@
+<div
+  [id]="elementId"
+  tabindex="-1"
+  class="dds__modal dds__fade"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="dds__modal-dialog" role="document">
+    <div class="dds__modal-content">
+      <div class="dds__modal-header">
+        <h3 class="dds__modal-title" [id]="elementId+'Title'">
+          <ng-content select="[modal-title]"></ng-content>
+        </h3>
+      </div>
+      <button class="dds__close" data-dismiss="dds__modal" aria-label="Close">
+        <span class="dds__icons dds__close-x" aria-hidden="true"></span>
+      </button>
+      <div class="dds__modal-body">
+        <ng-content select="[modal-body]"></ng-content>
+      </div>
+      <div class="dds__modal-footer">
+        <ng-content select="[modal-footer]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Button trigger modal -->
+<a #triggerContainer>
+  <ng-content select="[modal-trigger]"></ng-content>
+</a>

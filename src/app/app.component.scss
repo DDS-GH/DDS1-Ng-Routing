@@ -1,0 +1,94 @@
+.body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  position: relative; /* ?? */
+  overflow-y: auto;
+}
+
+footer {
+  min-height: 3rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid lightgray;
+}
+
+.headerRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1 2 auto;
+  padding-right: 1rem;
+}
+
+.headerCol {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+main {
+  overflow: hidden;
+}
+
+main nav {
+  position: sticky;
+  top: 0;
+}
+
+::ng-deep.boxH3 {
+  text-align: right;
+}
+
+::ng-deep.boxH4 {
+  margin-top: 2rem;
+  border-bottom: 2px dashed gray;
+}
+
+::ng-deep.boxHr {
+  border-top: 2px dashed darkgray;
+  border-bottom: 2px dotted lightgray;
+}
+
+.content {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.customHeaderButton {
+  padding: 0 !important;
+  &:hover {
+    background: transparent !important;
+  }
+}
+
+.sandboxLogoContainer {
+  height: 30px;
+  overflow: hidden;
+}
+
+.sandboxLogo {
+  font-size: 8rem;
+  position: relative;
+  top: -50px;
+}
+
+@media only screen and (max-width: 480px) {
+  .searchCol {
+    display:none;
+  }
+}
+
+@media only screen and (mi-width: 768px) {
+  .searchCol dds-textinput {
+    min-width: 400px;
+  }
+}

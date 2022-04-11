@@ -1,0 +1,32 @@
+<h2>Modal</h2>
+<div class="dds__row">
+  <div class="dds__col--2 dds__col--sm-12 dds__col--md-12 dds__mb-3">
+    <p>
+      This modal wrapper is customized to be used within the table's lifecycle,
+      to make it easy to add an inline modal button into a table row, and is
+      also not finished for that purpose. Please contact Support for other
+      examples of modal.
+    </p>
+    <uic-modal modalId="fromageId" modalTitleId="fromageTitle">
+      <div modal-title>
+        Saveur de fromage
+      </div>
+      <div modal-body>
+        This uses the modal.component.ts - not the same as that which is being
+        built into the table component, above.
+      </div>
+      <div modal-footer>
+        <button class="dds__btn dds__btn-secondary" data-dismiss="dds__modal">
+          Non</button
+        >&nbsp;
+        <button class="dds__btn dds__btn-primary">Oui</button>
+      </div>
+      <span modal-trigger>
+        <button role="button" class="dds__btn dds__btn-primary">
+          Internal Open
+        </button>
+        &nbsp;
+      </span>
+    </uic-modal>
+  </div>
+</div>

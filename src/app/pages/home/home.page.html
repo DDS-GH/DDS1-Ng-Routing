@@ -1,0 +1,56 @@
+<!-- <button class="btn btn-primary" (click)="onLoadServers()">Load Servers</button> -->
+<h1>README</h1>
+<h2 class="boxH3">Disclaimer</h2>
+<p>
+  This sandbox is to be considered only an experimental, unsupported example of
+  how the DDS1 components might be implemented within an Angular application.
+  Help is available, but not guaranteed. Please
+  <a
+    target="blank"
+    href="https://forms.office.com/Pages/ResponsePage.aspx?id=mhlclKKDgE6fjFqRvldS3Tu72-e1EktEmC896wPSUmFUOUcwSE9NMVBLQkVONzk1SUVZNllWMUtMWiQlQCN0PWcu"
+    >contact</a
+  >
+  the DDS Support and Automation team for further information.
+</p>
+<p style="color: red; font-weight: bold;">
+  Please also see this
+  <a
+    href="https://codesandbox.io/s/ng-dds1-playground-257-ti4zn?file=/src/main.ts"
+    target="new"
+    >DDS1 Playground Sandbox</a
+  >
+  for other examples of wrapping DDS1 components.
+</p>
+<p>
+  Please remember that this sample Angular app is not actually supported, while
+  at the same time is used in creating sample code that helps answer questions
+  and solve issues with the core and vanilla DDS1 library.
+</p>
+<h3 class="boxH3">Notes</h3>
+<h4 class="boxH4">Shell Inheritance</h4>
+<p>
+  All wrapping components inherit from
+  <i>lib/helpers/dds.component.ts</i>; This base component includes default
+  inputs such as:
+</p>
+<ul>
+  <li>
+    elementId (optional) - If left unsupplied, a random ID will be used instead.
+    This is applied to the base element of the DDS component and similar IDs are
+    generated for all linked/child components.
+  </li>
+  <li>
+    init: "now" | "later" | "manual" = "now"; Instructs the shell component to
+    initialize during AfterViewInit (now), or at some point via mutationObserver
+    (later), or manually from the parent component (manual) by calling its
+    method, initializeNow()
+  </li>
+</ul>
+
+<h4 class="boxH4">Initialization Timing</h4>
+<p>
+  The component shell normally initializes the DDS component within the
+  AfterViewInit life cycle stage. However if you add the
+  <i>init</i> property to any of the components' instances, it will initialize
+  AFTER that step, whenever the DDS component is found in the DOM.
+</p>
