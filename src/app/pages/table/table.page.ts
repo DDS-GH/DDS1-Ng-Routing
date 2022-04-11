@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild
 } from "@angular/core";
+import { Uuid } from "src/app/lib/helpers/dds.helpers";
 
 @Component({
   templateUrl: "./table.page.html"
@@ -46,7 +47,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       column: true,
       sort: true,
       select: true,
-      expand: true,
+      expand: false,
       condensed: true,
       fixedColumns: true,
       fixedHeight: false,
@@ -65,21 +66,14 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       additionalActions: [],
       search: true,
       actions: false,
-      perPage: 2,
+      perPage: 4,
       perPageSelect: [2, 4, 5, 8, 10],
       data: {
-        headings: ["Id", "Name", "Username", "Actions", "Email", "Website"],
+        headings: ["Id", "Name", "Username", "Actions", "Email", "Tooltip"],
         columns: [{ select: 0, sort: "asc", fixed: true }],
         rows: []
       }
     };
-
-    // append some placeholders into the data...
-    data.forEach((rec: any) => {
-      rec.actions = `
-            <actionPlaceholder>${rec.id}</actionPlaceholder>
-        `;
-    });
 
     return {
       ...this.config,
@@ -94,9 +88,9 @@ export class TablePageComponent implements OnInit, AfterViewInit {
               obj.id,
               obj.name,
               obj.username,
-              obj.actions,
+              `<actionholder>${Uuid()}</actionholder>`, // obj.actions
               obj.email,
-              obj.website
+              `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} Body">${Uuid()}</tipholder>` // obj.website
             ]
           };
         })
