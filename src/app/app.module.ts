@@ -15,6 +15,9 @@ import { HeaderComponent } from "./lib/header/header.component";
 import { TableComponent } from "./lib/table/table.component";
 import { ModalComponent } from "./lib/modal/modal.component";
 
+// DDS2 components
+import { TooltipComponent } from "./lib/tooltip/tooltip.component";
+
 // directives
 
 const appRoutes: Routes = [
@@ -23,14 +26,15 @@ const appRoutes: Routes = [
   { path: "table", component: TablePageComponent }
 ];
 
-const components = [HeaderComponent, ModalComponent, TableComponent];
+const DDS1 = [HeaderComponent, ModalComponent, TableComponent];
+const DDS2 = [TooltipComponent];
 
 const pages = [HomePageComponent, ModalPageComponent, TablePageComponent];
 
 // const directives = [IsSelectedDirective];
 
 @NgModule({
-  declarations: [AppComponent, ...components, ...pages],
+  declarations: [AppComponent, ...DDS1, ...DDS2, ...pages],
   imports: [
     BrowserModule,
     FormsModule,
