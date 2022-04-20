@@ -66,12 +66,19 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         delete: false
       },
       additionalActions: [],
-      search: true,
+      search: false,
       actions: false,
       perPage: 4,
       perPageSelect: [2, 4, 5, 8, 10],
       data: {
-        headings: ["Id", "Name", "Username", "Actions", "Email", "Tooltip"],
+        headings: [
+          `Id`,
+          `Name`,
+          `Username`,
+          `Actions`,
+          `Email`,
+          `Tooltip <tipholder data-title="Title ${Uuid()}" data-body="Spread kitty litter all over house human is in bath tub, emergency! drowning! meooowww! mew mew cat fur is the new black but meow in empty rooms eat the rubberband. Kitty kitty hack, but licks paws make meme, make cute face but try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.">${Uuid()}</tipholder>`
+        ],
         columns: [{ select: 0, sort: "asc", fixed: true }],
         rows: []
       }
@@ -92,7 +99,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
               obj.username,
               `<actionholder>${Uuid()}</actionholder>`, // obj.actions
               obj.email,
-              `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} Body">${Uuid()}</tipholder>` // obj.website
+              `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} I rule on my back you rub my tummy i bite you hard i like big cats and i can not lie">${Uuid()}</tipholder>` // obj.website
             ]
           };
         })
