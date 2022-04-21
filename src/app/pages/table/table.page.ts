@@ -187,4 +187,8 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         this.config = options;
       });
   }
+
+  export() {
+    this.tableElement.ddsComponent.export({ skipColumn: [1, 2], type: "csv" });
+  }
 }
