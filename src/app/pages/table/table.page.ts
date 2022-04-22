@@ -49,11 +49,11 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       column: true,
       sort: true,
       select: true,
-      expand: false,
+      expand: true,
       condensed: true,
       fixedColumns: true,
       fixedHeight: false,
-      exportDetails: false,
+      exportDetails: true,
       exportFileName: "order_export",
       disablePaginationInput: true,
       header: true,
@@ -100,7 +100,8 @@ export class TablePageComponent implements OnInit, AfterViewInit {
               `<actionholder>${Uuid()}</actionholder>`, // obj.actions
               obj.email,
               `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} I rule on my back you rub my tummy i bite you hard i like big cats and i can not lie">${Uuid()}</tipholder>` // obj.website
-            ]
+            ],
+            details: obj.name + ` details`
           };
         })
       },
