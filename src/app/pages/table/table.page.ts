@@ -13,7 +13,7 @@ declare const DDS: any;
   templateUrl: "./table.page.html"
 })
 export class TablePageComponent implements OnInit, AfterViewInit {
-  @ViewChild(`tableElement`) tableElement!: ElementRef<HTMLElement>;
+  @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
   public aria: string = `hardcoded aria`;
   public config: any = {};
   public showActions: boolean = false;
@@ -59,8 +59,12 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         exportJson: false,
         delete: false
       },
+      layout: {
+        row1: "{placeholder:2:start}{settings:1:end}",
+        row2: "{actions:1:start}{placeholder:1}{search:1:center}"
+      },
       additionalActions: [],
-      search: false,
+      search: true,
       actions: false,
       perPage: 4,
       perPageSelect: [2, 4, 5, 8, 10],
@@ -93,10 +97,13 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         })
       },
       render: () => {
+        this.myTable.ddsElement.parentElement.parentElement
+          .querySelector(`.dds__table-cmplx-search input`)
+          .setAttribute(`placeholder`, `Filter Table`);
         // THIS METHOD RENDERS A DD2 TOOLTIP MANUALLY
         // See the more Angular way to do this with the DDS2 library
         // https://confluence.dell.com/display/DDSYS/DDS2+Angular+Sandbox
-        this.tableElement.ddsElement
+        this.myTable.ddsElement
           .querySelectorAll(`tipholder`)
           .forEach((ph: any) => {
             const tipspot = ph.parentElement;
@@ -172,6 +179,6 @@ export class TablePageComponent implements OnInit, AfterViewInit {
   }
 
   export() {
-    this.tableElement.ddsComponent.export({ skipColumn: [1, 2], type: "csv" });
+    this.myTable.ddsComponent.export({ skipColumn: [1, 2], type: "csv" });
   }
 }

@@ -27,7 +27,8 @@ export class TableComponent extends DdsComponent implements OnChanges {
         "https://uicore.dellcdn.com/1.6.1/svgs/dds__chevron-right.svg",
         "https://uicore.dellcdn.com/1.6.1/svgs/dds__arrow-tri-solid-right.svg",
         "https://uicore.dellcdn.com/1.6.1/svgs/dds__printer.svg",
-        "https://uicore.dellcdn.com/1.6.1/svgs/dds__gear.svg"
+        "https://uicore.dellcdn.com/1.6.1/svgs/dds__gear.svg",
+        "https://uicore.dellcdn.com/1.6.1/svgs/dds__filter.svg"
       ],
       false
     );
