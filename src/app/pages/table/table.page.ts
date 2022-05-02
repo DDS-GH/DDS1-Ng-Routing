@@ -16,22 +16,14 @@ export class TablePageComponent implements OnInit, AfterViewInit {
   @ViewChild(`tableElement`) tableElement!: ElementRef<HTMLElement>;
   public aria: string = `hardcoded aria`;
   public config: any = {};
+  public showActions: boolean = false;
 
   ngOnInit(): void {
     this.getData()
       .then((data) => this.createOptions(data))
       .then((options) => {
-        this.initTable(options);
+        this.config = options;
       });
-  }
-
-  ngAfterViewInit(): void {
-    this.tableElement.ddsElement.addEventListener(
-      `uicTablePageChangedEvent`,
-      (e: any) => {
-        console.log(e.detail);
-      }
-    );
   }
 
   async getData(): Promise<any> {
@@ -42,6 +34,8 @@ export class TablePageComponent implements OnInit, AfterViewInit {
   }
 
   async createOptions(data: any): Promise<any> {
+    this.showActions = !this.showActions;
+
     this.config = {
       settings: true,
       print: false,
@@ -71,20 +65,13 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       perPage: 4,
       perPageSelect: [2, 4, 5, 8, 10],
       data: {
-        headings: [
-          `Id`,
-          `Name`,
-          `Username`,
-          `Actions`,
-          `Email`,
-          `Tooltip <tipholder data-title="Title ${Uuid()}" data-body="Spread kitty litter all over house human is in bath tub, emergency! drowning! meooowww! mew mew cat fur is the new black but meow in empty rooms eat the rubberband. Kitty kitty hack, but licks paws make meme, make cute face but try to hold own back foot to clean it but foot reflexively kicks you in face, go into a rage and bite own foot, hard.">${Uuid()}</tipholder>`
-        ],
+        headings: [`Id`, `Name`, `Username`, `Actions`, `Email`, `Tooltip`],
         columns: [{ select: 0, sort: "asc", fixed: true }],
         rows: []
       }
     };
 
-    return {
+    const returnObj = {
       ...this.config,
       items: data.length,
       data: {
@@ -107,8 +94,8 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       },
       render: () => {
         // THIS METHOD RENDERS A DD2 TOOLTIP MANUALLY
-        // TODO: Look into instatiating this as a wrapped component
-        // Probably something like https://stackoverflow.com/questions/51495787/angular-dynamically-inject-a-component-in-another-component
+        // See the more Angular way to do this with the DDS2 library
+        // https://confluence.dell.com/display/DDSYS/DDS2+Angular+Sandbox
         this.tableElement.ddsElement
           .querySelectorAll(`tipholder`)
           .forEach((ph: any) => {
@@ -160,10 +147,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
           });
       }
     };
-  }
-
-  initTable(options: any) {
-    this.config = options;
+    return returnObj;
   }
 
   updateData() {
@@ -174,8 +158,6 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         let minutes = d.getMinutes();
         let seconds = d.getSeconds();
         options.data.rows[0].data[2] = "UPDATED " + minutes + seconds;
-
-        //this.initTable(options);
         this.config = options;
       });
   }

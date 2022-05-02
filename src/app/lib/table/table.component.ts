@@ -33,6 +33,15 @@ export class TableComponent extends DdsComponent implements OnChanges {
     );
   }
 
+  ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    this.ddsElement.addEventListener(`uicTablePageChangedEvent`, (e: any) => {
+      if (this.ddsOptions.render) {
+        this.ddsOptions.render();
+      }
+    });
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes[`config`].currentValue.data &&
