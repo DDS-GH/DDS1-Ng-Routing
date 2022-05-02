@@ -97,10 +97,37 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         })
       },
       render: () => {
-        this.myTable.ddsElement.parentElement.parentElement
+        const tableRootEl = this.myTable.ddsElement.parentElement.parentElement;
+        // add a placeholder to the search bar:
+        tableRootEl
           .querySelector(`.dds__table-cmplx-search input`)
           .setAttribute(`placeholder`, `Filter Table`);
-        // THIS METHOD RENDERS A DD2 TOOLTIP MANUALLY
+
+        // hide/show a column
+        const settingsEl = tableRootEl.querySelector(
+          `.dds__table-cmplx-settings`
+        );
+        settingsEl.querySelector(`.dds__table-cmplx-settings-button`).click();
+        const actionsCheckbox = settingsEl.querySelectorAll(
+          `.dds__table-cmplx-li input`
+        )[3];
+        if (
+          (!this.showActions && actionsCheckbox.checked) ||
+          (this.showActions && !actionsCheckbox.checked)
+        ) {
+          actionsCheckbox.click();
+          settingsEl
+            .querySelector(`[data-toggle="data-column-box"] .dds__btn-primary`)
+            .click();
+        } else {
+          settingsEl
+            .querySelector(
+              `[data-toggle="data-column-box"] .dds__btn-secondary`
+            )
+            .click();
+        }
+
+        // RENDER in-row TOOLTIPS:
         // See the more Angular way to do this with the DDS2 library
         // https://confluence.dell.com/display/DDSYS/DDS2+Angular+Sandbox
         this.myTable.ddsElement
