@@ -1,0 +1,12 @@
+::ng-deep .dds__table-complx-details:hover,
+::ng-deep .dds__table-complx-details-body:hover {
+  background: white !important;
+}
+::ng-deep tr .dds__table:hover {
+  background: inherit !important;
+}
+
+::ng-deep tr .dds__table tr:hover {
+  background: lightgray !important;
+}
+

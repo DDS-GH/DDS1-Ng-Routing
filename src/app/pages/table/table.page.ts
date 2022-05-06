@@ -7,10 +7,12 @@ import {
 } from "@angular/core";
 import { createElement, Uuid } from "src/app/lib/helpers/dds.helpers";
 
+declare const UIC: any;
 declare const DDS: any;
 
 @Component({
-  templateUrl: "./table.page.html"
+  templateUrl: "./table.page.html",
+  styleUrls: ["./table.page.scss"]
 })
 export class TablePageComponent implements OnInit, AfterViewInit {
   @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
@@ -92,7 +94,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
               obj.email,
               `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} I rule on my back you rub my tummy i bite you hard i like big cats and i can not lie">${Uuid()}</tipholder>` // obj.website
             ],
-            details: obj.name + ` details`
+            details: `<tableholder>${Uuid()}</tableholder>`
           };
         })
       },
@@ -126,6 +128,29 @@ export class TablePageComponent implements OnInit, AfterViewInit {
             )
             .click();
         }
+
+        // RENDER in-row TABLES:
+        this.myTable.ddsElement
+          .querySelectorAll(`tableholder`)
+          .forEach((th: any) => {
+            const rowId = th.innerHTML.trim();
+            const newDiv = createElement("div", {
+              style: "background: white;"
+            });
+            const newTable = createElement("table", {
+              id: rowId,
+              "data-table": "dds__table",
+              class: "dds__table dds__table-hover dds__table-cmplx",
+              "data-table-data": `{"showData":false,"search":false,"select":false,"settings":false,"sort":false,"expand":false,"fixedColumns":true,"fixedHeight":false,"header":true,
+            "data":{"headings":["Name","Company","Extension","Start Date","Email","Phone","Link"],
+            "columns":[{"select":0,"sort":"asc","fixed":true},{"select":[1,2],"hidden":true,"fixed":true},{"select":3,"type":"date","format":"MM/DD/YYYY","sortable":true}],
+            "rows":[{"data":["Hedwig F. Nguyen","Arcu Vel Foundation","9875","03/27/2017","nunc.ullamcorper@metusvitae.com","070 8206 9605","<a href=&#39;//www.dell.com&#39;>Dell Home Page</a>"]},{"data":["Genevieve U. Watts","Eget Incorporated","9557","07/18/2017","Nullam.vitae@egestas.edu","0800 025698","<a href=&#39;//www.dell.com&#39;>Dell Home Page</a>"],"details":"Genevieve U. Watts details"}]}}`
+            });
+            newDiv.appendChild(newTable);
+            th.parentElement.appendChild(newDiv);
+            th.remove();
+            UIC.Table(document.getElementById(rowId));
+          });
 
         // RENDER in-row TOOLTIPS:
         // See the more Angular way to do this with the DDS2 library
