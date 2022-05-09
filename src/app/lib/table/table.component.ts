@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { DdsComponent } from "../helpers/dds.component";
+import { debounce } from "../helpers/dds.helpers";
 
 @Component({
   selector: `uic-table`,
@@ -36,14 +37,27 @@ export class TableComponent extends DdsComponent implements OnChanges {
 
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
-    this.ddsElement.addEventListener(`uicTablePageChangedEvent`, (e: any) => {
+    const render = () => {
       if (this.ddsOptions.render) {
         this.ddsOptions.render();
       }
-    });
+    };
+    this.ddsElement.addEventListener(`uicTablePageChangedEvent`, render);
+    this.ddsElement.addEventListener(`uicTableNewPageEvent`, render);
+    this.ddsElement.addEventListener(
+      `uicTableSearchEvent`,
+      debounce(() => render())
+    );
+    this.ddsElement.addEventListener(
+      `uicTableUpdateEvent`,
+      debounce(() => render())
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.ddsElement) {
+      this.ddsElement.selectedRows = [];
+    }
     if (
       changes[`config`].currentValue.data &&
       changes[`config`].currentValue.data.rows.length > 0
@@ -53,7 +67,6 @@ export class TableComponent extends DdsComponent implements OnChanges {
       const firstRow = this.ddsElement.querySelector(`tr`);
       const colCount = firstRow.querySelectorAll(`th`).length;
       // allSelectedRows = [];
-      this.ddsElement.selectedRows = [];
       const config = {
         ...changes[`config`].currentValue,
         data: {

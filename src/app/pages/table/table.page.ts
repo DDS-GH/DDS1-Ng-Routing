@@ -39,41 +39,60 @@ export class TablePageComponent implements OnInit, AfterViewInit {
     this.showActions = !this.showActions;
 
     this.config = {
-      settings: true,
-      print: false,
-      import: false,
+      actions: false,
+      additionalActions: [],
+      allowedImportExtensions: [`.csv`, `.json`, `.js`],
+      buttonLabelLeft: `Previous`,
+      buttonLabelRight: `Next`,
       column: true,
-      sort: true,
-      select: true,
-      expand: true,
       condensed: true,
-      fixedColumns: true,
-      fixedHeight: false,
-      exportDetails: true,
-      exportFileName: "order_export",
-      disablePaginationInput: true,
-      header: true,
-      text: {
-        batchActions: "Actions"
+      data: {
+        headings: [`Id`, `Name`, `Username`, `Actions`, `Email`, `Tooltip`],
+        columns: [{ select: 0, sort: `asc`, fixed: true }],
+        rows: []
       },
+      disablePaginationInput: true,
       defaultBatchActions: {
         exportCsv: true,
         exportJson: false,
         delete: false
       },
-      layout: {
-        row1: "{placeholder:2:start}{settings:1:end}",
-        row2: "{actions:1:start}{placeholder:1}{search:1:center}"
-      },
-      additionalActions: [],
-      search: true,
-      actions: false,
+      expand: true,
+      expandIcon: `arrow-tri-solid-right`,
+      exportDetails: true,
+      exportFileName: `order_export`,
+      exportShowWarning: false,
+      fixedColumns: true,
+      fixedHeight: false,
+      header: true,
+      import: false,
+      // items: 0,
+      // layout: {
+      //   row1: `{placeholder:2:start}{settings:1:end}`,
+      //   row2: `{actions:1:start}{placeholder:1}{search:1:center}`
+      // },
       perPage: 4,
       perPageSelect: [2, 4, 5, 8, 10],
-      data: {
-        headings: [`Id`, `Name`, `Username`, `Actions`, `Email`, `Tooltip`],
-        columns: [{ select: 0, sort: "asc", fixed: true }],
-        rows: []
+      print: false,
+      rearrangeableColumns: false,
+      search: true,
+      select: true,
+      settings: true,
+      showData: true,
+      sort: true,
+      text: {
+        apply: `Apply`,
+        cancel: `Cancel`,
+        exportCsv: `Export as Csv`,
+        exportJson: `Export as Json`,
+        delete: `Delete`,
+        noEntries: `No Entries found`,
+        import: `Import`,
+        print: `Print`,
+        columns: `Columns`,
+        batchActions: `Batch Actions`,
+        chooseAction: `Choose Actions`,
+        itemsPerPageText: `Pagination label`
       }
     };
 
