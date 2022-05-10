@@ -10,3 +10,6 @@
   background: lightgray !important;
 }
 
+::ng-deep #cmplxTablesActions {
+  max-width: 16rem;
+}

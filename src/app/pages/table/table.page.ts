@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild
 } from "@angular/core";
+import { debug } from "console";
 import { createElement, Uuid } from "src/app/lib/helpers/dds.helpers";
 
 declare const UIC: any;
@@ -19,8 +20,12 @@ export class TablePageComponent implements OnInit, AfterViewInit {
   public aria: string = `hardcoded aria`;
   public config: any = {};
   public showActions: boolean = false;
+  private pageAllSelectedRows: Array<number> = [];
 
   ngOnInit(): void {
+    window.customFunction = (e: any) => {
+      alert(`Using this is tricky in Angular`);
+    };
     this.getData()
       .then((data) => this.createOptions(data))
       .then((options) => {
@@ -40,7 +45,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
 
     this.config = {
       actions: false,
-      additionalActions: [],
+      additionalActions: [{ html: `Custom Function`, js: `customFunction()` }],
       allowedImportExtensions: [`.csv`, `.json`, `.js`],
       buttonLabelLeft: `Previous`,
       buttonLabelRight: `Next`,
@@ -249,7 +254,24 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       });
   }
 
+  handleCheckbox(e: any) {
+    debug(e);
+    this.pageAllSelectedRows = e;
+  }
+
   export() {
-    this.myTable.ddsComponent.export({ skipColumn: [1, 2], type: "csv" });
+    const currentSelectedRows = JSON.parse(
+      JSON.stringify(this.myTable.ddsElement.selectedRows)
+    );
+    this.myTable.ddsElement.selectedRows = [];
+    this.pageAllSelectedRows.forEach((sel) => {
+      this.config.data.rows.forEach((row: any, intI: any) => {
+        if (row.data[0] === sel) {
+          this.myTable.ddsElement.selectedRows.push(intI);
+        }
+      });
+    });
+    this.myTable.ddsComponent.export({ type: "csv" });
+    this.myTable.ddsElement.selectedRows = currentSelectedRows;
   }
 }
