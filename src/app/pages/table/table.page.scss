@@ -10,3 +10,11 @@
   background: lightgray !important;
 }
 
+::ng-deep #cmplxTablesActions {
+  max-width: 16rem;
+}
+
+// ::ng-deep .dds__table-cmplx-container>table>thead>tr>th:nth-child(3),
+// ::ng-deep .dds__table-cmplx-container>table>tbody>tr>td:nth-child(3) {
+//   display:none;
+// }

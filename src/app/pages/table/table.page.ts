@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { createElement, Uuid } from "src/app/lib/helpers/dds.helpers";
 
 declare const UIC: any;
@@ -14,13 +8,17 @@ declare const DDS: any;
   templateUrl: "./table.page.html",
   styleUrls: ["./table.page.scss"]
 })
-export class TablePageComponent implements OnInit, AfterViewInit {
+export class TablePageComponent implements OnInit {
   @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
   public aria: string = `hardcoded aria`;
   public config: any = {};
   public showActions: boolean = false;
+  private pageLevelAllSelectedRows: Array<number> = [];
 
   ngOnInit(): void {
+    window.customFunction = (e: any) => {
+      alert(`Using this is tricky in Angular`);
+    };
     this.getData()
       .then((data) => this.createOptions(data))
       .then((options) => {
@@ -40,7 +38,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
 
     this.config = {
       actions: false,
-      additionalActions: [],
+      additionalActions: [{ html: `Custom Function`, js: `customFunction()` }],
       allowedImportExtensions: [`.csv`, `.json`, `.js`],
       buttonLabelLeft: `Previous`,
       buttonLabelRight: `Next`,
@@ -55,7 +53,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       defaultBatchActions: {
         exportCsv: true,
         exportJson: false,
-        delete: false
+        delete: true
       },
       expand: true,
       expandIcon: `arrow-tri-solid-right`,
@@ -247,6 +245,10 @@ export class TablePageComponent implements OnInit, AfterViewInit {
         options.data.rows = [];
         this.config = options;
       });
+  }
+
+  handleCheckbox(e: any) {
+    this.pageLevelAllSelectedRows = e;
   }
 
   export() {
