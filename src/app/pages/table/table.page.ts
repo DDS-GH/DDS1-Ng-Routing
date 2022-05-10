@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from "@angular/core";
-import { debug } from "console";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { createElement, Uuid } from "src/app/lib/helpers/dds.helpers";
 
 declare const UIC: any;
@@ -15,12 +8,12 @@ declare const DDS: any;
   templateUrl: "./table.page.html",
   styleUrls: ["./table.page.scss"]
 })
-export class TablePageComponent implements OnInit, AfterViewInit {
+export class TablePageComponent implements OnInit {
   @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
   public aria: string = `hardcoded aria`;
   public config: any = {};
   public showActions: boolean = false;
-  private pageAllSelectedRows: Array<number> = [];
+  private pageLevelAllSelectedRows: Array<number> = [];
 
   ngOnInit(): void {
     window.customFunction = (e: any) => {
@@ -60,7 +53,7 @@ export class TablePageComponent implements OnInit, AfterViewInit {
       defaultBatchActions: {
         exportCsv: true,
         exportJson: false,
-        delete: false
+        delete: true
       },
       expand: true,
       expandIcon: `arrow-tri-solid-right`,
@@ -255,23 +248,10 @@ export class TablePageComponent implements OnInit, AfterViewInit {
   }
 
   handleCheckbox(e: any) {
-    debug(e);
-    this.pageAllSelectedRows = e;
+    this.pageLevelAllSelectedRows = e;
   }
 
   export() {
-    const currentSelectedRows = JSON.parse(
-      JSON.stringify(this.myTable.ddsElement.selectedRows)
-    );
-    this.myTable.ddsElement.selectedRows = [];
-    this.pageAllSelectedRows.forEach((sel) => {
-      this.config.data.rows.forEach((row: any, intI: any) => {
-        if (row.data[0] === sel) {
-          this.myTable.ddsElement.selectedRows.push(intI);
-        }
-      });
-    });
-    this.myTable.ddsComponent.export({ type: "csv" });
-    this.myTable.ddsElement.selectedRows = currentSelectedRows;
+    this.myTable.ddsComponent.export({ skipColumn: [1, 2], type: "csv" });
   }
 }
