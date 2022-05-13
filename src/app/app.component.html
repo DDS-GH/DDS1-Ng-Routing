@@ -21,7 +21,10 @@
     </div>
   </app-header>
   <main id="bodyMain">
-    <nav><a routerLink="/table">Table</a><br /></nav>
+    <nav>
+      <a routerLink="/table">Table</a><br />
+      <a routerLink="/popover">Popover</a><br />
+    </nav>
     <!-- <aside>Global Right-side content</aside> -->
     <!-- Main page content -->
     <div class="content">
@@ -32,3 +35,9 @@
   </main>
   <footer>footer</footer>
 </div>
+<div
+  id="dds__full-screen-overlay"
+  class="dds__overlay"
+  style="display: none;"
+></div>
+<!-- .dds__overlay div is required once per application -->

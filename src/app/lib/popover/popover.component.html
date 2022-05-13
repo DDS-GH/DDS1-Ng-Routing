@@ -1,0 +1,14 @@
+<span #rootContainer>
+  <button
+    id="popoverButton-{{uniqueId}}"
+    class="dds__btn dds__btn-secondary"
+    data-toggle="dds__popover"
+    aria-haspopup="dialog"
+    tabindex="0"
+  >
+    Example popover {{uniqueId}} {{pPlacement}}
+  </button>
+</span>
+<div style="opacity: 0.3;" tabindex="-1" #contentContainer>
+  <ng-content></ng-content>
+</div>
