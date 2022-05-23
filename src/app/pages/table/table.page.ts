@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { createElement, Uuid } from "src/app/lib/helpers/dds.helpers";
+import { debug } from "src/app/utilities/util";
 
 declare const UIC: any;
 declare const DDS: any;
@@ -10,9 +11,10 @@ declare const DDS: any;
 })
 export class TablePageComponent implements OnInit {
   @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
-  public aria: string = `hardcoded aria`;
+  public aria: string = `variable-defined aria`;
   public config: any = {};
-  public showActions: boolean = false;
+  public showAddress: boolean = false;
+  public hiddenColumns: Array<number> = [3]; // expand icon and checkbox are 0 and 1
   private pageLevelAllSelectedRows: Array<number> = [];
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class TablePageComponent implements OnInit {
   }
 
   async createOptions(data: any): Promise<any> {
-    this.showActions = !this.showActions;
+    this.showAddress = !this.showAddress;
 
     this.config = {
       actions: false,
@@ -45,7 +47,15 @@ export class TablePageComponent implements OnInit {
       column: true,
       condensed: true,
       data: {
-        headings: [`Id`, `Name`, `Username`, `Actions`, `Email`, `Tooltip`],
+        headings: [
+          `Id`,
+          `Meta`,
+          `Name`,
+          `Username`,
+          `Address`,
+          `Email`,
+          `Tooltip`
+        ],
         columns: [{ select: 0, sort: `asc`, fixed: true }],
         rows: []
       },
@@ -57,7 +67,7 @@ export class TablePageComponent implements OnInit {
       },
       expand: true,
       expandIcon: `arrow-tri-solid-right`,
-      exportDetails: true,
+      exportDetails: false,
       exportFileName: `order_export`,
       exportShowWarning: false,
       fixedColumns: true,
@@ -100,16 +110,20 @@ export class TablePageComponent implements OnInit {
       data: {
         headings: this.config.data.headings,
         columns: this.config.data.columns,
-        rows: await data.map((obj: any) => {
+        rows: await data.map((obj: any, intI: number) => {
           // ... and structure data from the api the way we want
           return {
             data: [
               obj.id,
+              `
+                sub${intI}a Genevieve U. Watts,	07/18/2017,	Nullam.vitae@egestas.edu,	0800 025698,	Dell Home Page https://www.dell.com/;
+                sub${intI}b Hedwig F. Nguyen,	03/27/2017,	nunc.ullamcorper@metusvitae.com,	070 8206 9605,	Dell Home Page https://www.dell.com/
+              `,
               obj.name,
               obj.username,
-              `<actionholder>${Uuid()}</actionholder>`, // obj.actions
+              obj.address.street,
               obj.email,
-              `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} I rule on my back you rub my tummy i bite you hard i like big cats and i can not lie">${Uuid()}</tipholder>` // obj.website
+              `<tipholder data-title="Title ${Uuid()}" data-body="${Uuid()} I rule on my back you rub my tummy i bite you hard i like big cats and i can not lie">${Uuid()}</tipholder>`
             ],
             details: `<tableholder>${Uuid()}</tableholder>`
           };
@@ -131,8 +145,8 @@ export class TablePageComponent implements OnInit {
           `.dds__table-cmplx-li input`
         )[3];
         if (
-          (!this.showActions && actionsCheckbox.checked) ||
-          (this.showActions && !actionsCheckbox.checked)
+          (!this.showAddress && actionsCheckbox.checked) ||
+          (this.showAddress && !actionsCheckbox.checked)
         ) {
           actionsCheckbox.click();
           settingsEl

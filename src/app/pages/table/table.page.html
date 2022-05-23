@@ -7,7 +7,7 @@
       to the first page in the pagination while externally updating the data.
     </p>
     <button class="dds__btn dds__btn-primary" (click)="updateData()">
-      Update Data (actions: {{showActions}})
+      Update Data (address: {{showAddress}})
     </button>
     &nbsp;
     <button class="dds__btn dds__btn-primary" (click)="noResults()">
@@ -28,6 +28,7 @@
       [aria]="aria"
       (onChecked)="handleCheckbox($event)"
       init="manual"
+      [hiddenColumns]="hiddenColumns"
     ></uic-table>
   </div>
 </div>

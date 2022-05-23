@@ -8,7 +8,12 @@ import {
 } from "@angular/core";
 import { debug } from "console";
 import { DdsComponent } from "../helpers/dds.component";
-import { arrayRemove, debounce } from "../helpers/dds.helpers";
+import {
+  arrayRemove,
+  createObserver,
+  debounce,
+  ObserverDef
+} from "../helpers/dds.helpers";
 
 @Component({
   selector: `uic-table`,
@@ -18,18 +23,23 @@ import { arrayRemove, debounce } from "../helpers/dds.helpers";
 export class TableComponent extends DdsComponent implements OnChanges {
   @Input() config: any = ``;
   @Input() aria: string = ``;
+  @Input() hiddenColumns: any = ``;
   @Output() onChecked: EventEmitter<Array<number>> = new EventEmitter<
     Array<number>
   >();
   private allSelectedRows: Array<any> = []; // this would be a list of selections that we maintain manually
   private allCheckboxListeners: Array<any> = [];
   private rowIdColumnIndex = 2;
+  isSearching: boolean;
 
   // @ts-ignore
   ngOnInit(): void {
     super.ngOnInit();
     this.ddsInitializer = `Table`;
     this.ddsOptions = this.config;
+    if (this.hiddenColumns && typeof this.hiddenColumns === `string`) {
+      this.hiddenColumns = JSON.parse(this.hiddenColumns);
+    }
 
     // Some UICore components require SVGs; loadURLSVGs accepts two parameters: an array of the SVGs to load, and a boolean for whether or not to lazy-load.  True by default; this Sandbox requires False.
     UIC.loadURLSVGs(
@@ -54,10 +64,18 @@ export class TableComponent extends DdsComponent implements OnChanges {
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
     const render = () => {
+      const instanceRoot = this.ddsElement.parentElement.parentElement;
+      const searchInput = instanceRoot.querySelector(`input[type="search"]`);
+      let isSearching =
+        document.activeElement?.getAttribute(`type`) === `search`;
       this.addCheckboxListeners();
       this.reselectRows();
+      this.hideColumns();
       if (this.ddsOptions.render) {
         this.ddsOptions.render();
+      }
+      if (searchInput && isSearching) {
+        searchInput.focus();
       }
     };
     this.ddsElement.addEventListener(`uicPaginationPageUpdateEvent`, render);
@@ -65,7 +83,7 @@ export class TableComponent extends DdsComponent implements OnChanges {
     this.ddsElement.addEventListener(`uicTableNewPageEvent`, render);
     this.ddsElement.addEventListener(
       `uicTableSearchEvent`,
-      debounce(() => render())
+      debounce(() => render(), 750)
     );
     this.ddsElement.addEventListener(
       `uicTableUpdateEvent`,
@@ -180,6 +198,21 @@ export class TableComponent extends DdsComponent implements OnChanges {
     //   selectedRows: this.ddsElement.selectedRows,
     //   allSelectedRows: this.allSelectedRows
     // });
+  }
+
+  hideColumns() {
+    if (this.hiddenColumns) {
+      const ths = document.querySelectorAll(`#${this.elementId}>thead th`);
+      const trs = document.querySelectorAll(
+        `#${this.elementId}>tbody>tr:not(.dds__table-cmplx-row-details)`
+      );
+      this.hiddenColumns.forEach((hideCol: number) => {
+        ths[hideCol].classList.add(`meta`);
+        trs.forEach((trow: any) => {
+          trow.querySelectorAll(`td`)[hideCol].classList.add(`meta`);
+        });
+      });
+    }
   }
 
   addCheckboxListeners = () => {
