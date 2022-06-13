@@ -79,7 +79,7 @@ export class TablePageComponent implements OnInit {
       //   row1: `{placeholder:2:start}{settings:1:end}`,
       //   row2: `{actions:1:start}{placeholder:1}{search:1:center}`
       // },
-      perPage: 4,
+      perPage: 2,
       perPageSelect: [2, 4, 5, 8, 10],
       print: false,
       rearrangeableColumns: false,
