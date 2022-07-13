@@ -13,7 +13,7 @@ export class TablePageComponent implements OnInit {
   @ViewChild(`myTable`) myTable!: ElementRef<HTMLElement>;
   public aria: string = `variable-defined aria`;
   public config: any = {};
-  public showAddress: boolean = false;
+  public showCol: boolean = false;
   public hiddenColumns: Array<number> = [3]; // expand icon and checkbox are 0 and 1
   private pageLevelAllSelectedRows: Array<number> = [];
 
@@ -36,7 +36,7 @@ export class TablePageComponent implements OnInit {
   }
 
   async createOptions(data: any): Promise<any> {
-    this.showAddress = !this.showAddress;
+    this.showCol = !this.showCol;
 
     this.config = {
       actions: false,
@@ -145,8 +145,8 @@ export class TablePageComponent implements OnInit {
           `.dds__table-cmplx-li input`
         )[3];
         if (
-          (!this.showAddress && actionsCheckbox.checked) ||
-          (this.showAddress && !actionsCheckbox.checked)
+          (!this.showCol && actionsCheckbox.checked) ||
+          (this.showCol && !actionsCheckbox.checked)
         ) {
           actionsCheckbox.click();
           settingsEl
