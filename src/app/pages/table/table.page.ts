@@ -14,7 +14,6 @@ export class TablePageComponent implements OnInit {
   public aria: string = `variable-defined aria`;
   public config: any = {};
   public showCol: boolean = false;
-  public hiddenColumns: Array<number> = [3]; // expand icon and checkbox are 0 and 1
   private pageLevelAllSelectedRows: Array<number> = [];
 
   ngOnInit(): void {
@@ -49,7 +48,7 @@ export class TablePageComponent implements OnInit {
       data: {
         headings: [
           `Id`,
-          `Meta`,
+          `<div class="hiddenColumn">Meta</div>`,
           `Name`,
           `Username`,
           `Address`,
@@ -116,8 +115,10 @@ export class TablePageComponent implements OnInit {
             data: [
               obj.id,
               `
-                sub${intI}a Genevieve U. Watts,	07/18/2017,	Nullam.vitae@egestas.edu,	0800 025698,	Dell Home Page https://www.dell.com/;
-                sub${intI}b Hedwig F. Nguyen,	03/27/2017,	nunc.ullamcorper@metusvitae.com,	070 8206 9605,	Dell Home Page https://www.dell.com/
+                <div class="hiddenColumn">
+                  sub${intI}a Genevieve U. Watts,	07/18/2017,	Nullam.vitae@egestas.edu,	0800 025698,	Dell Home Page https://www.dell.com/;
+                  sub${intI}b Hedwig F. Nguyen,	03/27/2017,	nunc.ullamcorper@metusvitae.com,	070 8206 9605,	Dell Home Page https://www.dell.com/
+                </div>
               `,
               obj.name,
               obj.username,
@@ -136,7 +137,7 @@ export class TablePageComponent implements OnInit {
           .querySelector(`.dds__table-cmplx-search input`)
           .setAttribute(`placeholder`, `Filter Table`);
 
-        // hide/show a column
+        // trigger hide/show a column using the Columns menu
         const settingsEl = tableRootEl.querySelector(
           `.dds__table-cmplx-settings`
         );
