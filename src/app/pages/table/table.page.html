@@ -6,6 +6,13 @@
       table.component.ts / reloadTableData method, to fix the bug of NOT jumping
       to the first page in the pagination while externally updating the data.
     </p>
+    <h4 style="color: red;">Read This!</h4>
+    <p>
+      There are two columns being hidden in this sample. One, titled "Meta",
+      <i>starts out</i> hidden and is not able to be shown by the user. The
+      other is "Username" which you can see by default and can be hidden
+      programmatically.
+    </p>
     <button class="dds__btn dds__btn-primary" (click)="updateData()">
       Update Data (showCol: {{showCol}})
     </button>
@@ -28,7 +35,6 @@
       [aria]="aria"
       (onChecked)="handleCheckbox($event)"
       init="manual"
-      [hiddenColumns]="hiddenColumns"
     ></uic-table>
   </div>
 </div>

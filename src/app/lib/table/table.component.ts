@@ -23,7 +23,7 @@ import {
 export class TableComponent extends DdsComponent implements OnChanges {
   @Input() config: any = ``;
   @Input() aria: string = ``;
-  @Input() hiddenColumns: any = ``;
+  // @Input() hiddenColumns: any = ``; // was used to quickly any column's visibility and still be able to SEARCH the column. But it does cause a problem with widths of those left visible
   @Output() onChecked: EventEmitter<Array<number>> = new EventEmitter<
     Array<number>
   >();
@@ -37,9 +37,9 @@ export class TableComponent extends DdsComponent implements OnChanges {
     super.ngOnInit();
     this.ddsInitializer = `Table`;
     this.ddsOptions = this.config;
-    if (this.hiddenColumns && typeof this.hiddenColumns === `string`) {
-      this.hiddenColumns = JSON.parse(this.hiddenColumns);
-    }
+    // if (this.hiddenColumns && typeof this.hiddenColumns === `string`) {
+    //   this.hiddenColumns = JSON.parse(this.hiddenColumns);
+    // }
 
     // Some UICore components require SVGs; loadURLSVGs accepts two parameters: an array of the SVGs to load, and a boolean for whether or not to lazy-load.  True by default; this Sandbox requires False.
     UIC.loadURLSVGs(
@@ -70,7 +70,7 @@ export class TableComponent extends DdsComponent implements OnChanges {
         document.activeElement?.getAttribute(`type`) === `search`;
       this.addCheckboxListeners();
       this.reselectRows();
-      this.hideColumns();
+      // this.hideColumns();  // see note about hiddenColumns where it is defined
       if (this.ddsOptions.render) {
         this.ddsOptions.render();
       }
@@ -200,20 +200,20 @@ export class TableComponent extends DdsComponent implements OnChanges {
     // });
   }
 
-  hideColumns() {
-    if (this.hiddenColumns) {
-      const ths = document.querySelectorAll(`#${this.elementId}>thead th`);
-      const trs = document.querySelectorAll(
-        `#${this.elementId}>tbody>tr:not(.dds__table-cmplx-row-details)`
-      );
-      this.hiddenColumns.forEach((hideCol: number) => {
-        ths[hideCol].classList.add(`meta`);
-        trs.forEach((trow: any) => {
-          trow.querySelectorAll(`td`)[hideCol].classList.add(`meta`);
-        });
-      });
-    }
-  }
+  // hideColumns() { // see note about hiddenColumns where it is defined
+  //   if (this.hiddenColumns) {
+  //     const ths = document.querySelectorAll(`#${this.elementId}>thead th`);
+  //     const trs = document.querySelectorAll(
+  //       `#${this.elementId}>tbody>tr:not(.dds__table-cmplx-row-details)`
+  //     );
+  //     this.hiddenColumns.forEach((hideCol: number) => {
+  //       ths[hideCol].classList.add(`meta`);
+  //       trs.forEach((trow: any) => {
+  //         trow.querySelectorAll(`td`)[hideCol].classList.add(`meta`);
+  //       });
+  //     });
+  //   }
+  // }
 
   addCheckboxListeners = () => {
     const allBox = this.ddsElement.querySelector(

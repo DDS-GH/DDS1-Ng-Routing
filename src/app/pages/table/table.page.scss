@@ -13,3 +13,9 @@
 ::ng-deep #cmplxTablesActions {
   max-width: 16rem;
 }
+
+::ng-deep .hiddenColumn {
+  width: 0px;
+  overflow: hidden;
+  visibility: hidden;
+}
